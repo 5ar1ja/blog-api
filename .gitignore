@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+*.env
+
+# Django
+db.sqlite3
+db.sqlite4
+static/
+media/
+logs/
+*.log
+
+# Redis / Celery
+*.dump.rdb
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+docs/erd.png
+!docs/
