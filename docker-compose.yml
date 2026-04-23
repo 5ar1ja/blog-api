@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: always
+
+  web:
+    build: .
+    command: daphne -b 0.0.0.0 -p 8000 settings.asgi:application
+    volumes:
+      - ./blog_api:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    ports:
+      - "8000:8000"
+    environment:
+      - BLOG_ENV_ID=local
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+      - SEED_DB=true
+    depends_on:
+      - redis
+    restart: always
+
+  celery_worker:
+    build: .
+    command: celery -A settings worker -l info
+    volumes:
+      - ./blog_api:/app
+    environment:
+      - BLOG_ENV_ID=local
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+    depends_on:
+      - redis
+    restart: always
+
+  celery_beat:
+    build: .
+    command: celery -A settings beat -l info
+    volumes:
+      - ./blog_api:/app
+    environment:
+      - BLOG_ENV_ID=local
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+    depends_on:
+      - redis
+    restart: always
+
+  flower:
+    build: .
+    command: celery -A settings flower --port=5555
+    volumes:
+      - ./blog_api:/app
+    ports:
+      - "5555:5555"
+    environment:
+      - BLOG_ENV_ID=local
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+    depends_on:
+      - redis
+      - celery_worker
+
+volumes:
+  redis_data:
+  static_volume:
+  media_volume:
