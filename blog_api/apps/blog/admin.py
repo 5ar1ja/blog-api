@@ -4,7 +4,7 @@ from .models import Category, Tag, Post, Comment
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("name", "slug")
-    prepopulated_fields = {"slug": ("name",)}
+    prepopulated_fields = {"slug": ("name_en",)}
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):

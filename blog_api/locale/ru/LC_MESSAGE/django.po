@@ -1,0 +1,36 @@
+# Russian translations
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+
+msgid "Hello, %(name)s!"
+msgstr "Привет, %(name)s!"
+
+msgid "Thank you for registering on Blog API."
+msgstr "Спасибо за регистрацию в Blog API."
+
+msgid "You can now create posts, leave comments, and explore content."
+msgstr "Теперь вы можете создавать посты, оставлять комментарии и читать материалы."
+
+msgid "Your account email:"
+msgstr "Email вашего аккаунта:"
+
+msgid "Welcome to Blog API!"
+msgstr "Добро пожаловать в Blog API!"
+
+msgid "Passwords must match."
+msgstr "Пароли должны совпадать."
+
+msgid "Invalid IANA timezone identifier."
+msgstr "Неверный идентификатор часового пояса IANA."
+
+msgid "Language updated."
+msgstr "Язык обновлён."
+
+msgid "Timezone updated."
+msgstr "Часовой пояс обновлён."
+
+msgid "Email must be provided"
+msgstr "Необходимо указать email."

@@ -1,0 +1,36 @@
+# English translations
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+
+msgid "Hello, %(name)s!"
+msgstr "Hello, %(name)s!"
+
+msgid "Thank you for registering on Blog API."
+msgstr "Thank you for registering on Blog API."
+
+msgid "You can now create posts, leave comments, and explore content."
+msgstr "You can now create posts, leave comments, and explore content."
+
+msgid "Your account email:"
+msgstr "Your account email:"
+
+msgid "Welcome to Blog API!"
+msgstr "Welcome to Blog API!"
+
+msgid "Passwords must match."
+msgstr "Passwords must match."
+
+msgid "Invalid IANA timezone identifier."
+msgstr "Invalid IANA timezone identifier."
+
+msgid "Language updated."
+msgstr "Language updated."
+
+msgid "Timezone updated."
+msgstr "Timezone updated."
+
+msgid "Email must be provided"
+msgstr "Email must be provided"

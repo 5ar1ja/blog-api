@@ -2,14 +2,27 @@ from django.db import models
 from django.conf import settings
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name_en = models.CharField(max_length=100)
+    name_ru = models.CharField(max_length=100)
+    name_kk = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
 
     class Meta:
         verbose_name_plural = "Categories"
 
+    @property
+    def name(self):
+        from django.utils.translation import get_language
+        lang = get_language()
+        if lang == 'ru':
+            return self.name_ru
+        elif lang == 'kk':
+            return self.name_kk
+        return self.name_en
+
     def __str__(self) -> str:
         return self.name
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)

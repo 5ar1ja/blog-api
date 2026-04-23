@@ -10,6 +10,8 @@ from django.conf import settings
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.http import StreamingHttpResponse
 
 from .models import Post
 from .serializers import PostSerializer, CommentSerializer
@@ -35,18 +37,21 @@ class PostViewSet(viewsets.ModelViewSet):
         return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
+        from .tasks import invalidate_post_cache
         serializer.save(author=self.request.user)
-        cache.delete("posts_list_cache")
+        invalidate_post_cache.delay()
         logger.info('Post created by %s', self.request.user.email)
 
     def perform_update(self, serializer):
+        from .tasks import invalidate_post_cache
         serializer.save()
-        cache.delete("posts_list_cache")
+        invalidate_post_cache.delay()
 
     def perform_destroy(self, instance):
+        from .tasks import invalidate_post_cache
         logger.info('Post deleted: %s', instance.slug)
         instance.delete()
-        cache.delete("posts_list_cache")
+        invalidate_post_cache.delay()
 
     def list(self, request, *args, **kwargs):
         cache_key = "posts_list_cache"
@@ -83,3 +88,27 @@ class PostViewSet(viewsets.ModelViewSet):
                 logger.info('Comment added to post %s by %s', post.slug, request.user.email)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class PostStreamView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    async def get(self, request):
+        async def event_stream():
+            import redis.asyncio as redis_async
+            from django.conf import settings
+            import asyncio
+            
+            r = redis_async.from_url(settings.REDIS_URL)
+            pubsub = r.pubsub()
+            await pubsub.subscribe("live_posts")
+            
+            try:
+                # Keep connection alive with ping or wait for messages
+                async for message in pubsub.listen():
+                    if message["type"] == "message":
+                        data = message["data"].decode("utf-8")
+                        yield f"data: {data}\n\n"
+            finally:
+                await pubsub.unsubscribe("live_posts")
+                await pubsub.close()
+
+        return StreamingHttpResponse(event_stream(), content_type='text/event-stream')

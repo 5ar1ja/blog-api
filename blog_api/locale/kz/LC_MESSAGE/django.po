@@ -1,0 +1,36 @@
+# Kazakh translations
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: kk\n"
+
+msgid "Hello, %(name)s!"
+msgstr "Сәлем, %(name)s!"
+
+msgid "Thank you for registering on Blog API."
+msgstr "Blog API-ге тіркелгеніңізге рахмет."
+
+msgid "You can now create posts, leave comments, and explore content."
+msgstr "Енді сіз жазбалар жасай, пікір қалдыра және мазмұнды оқи аласыз."
+
+msgid "Your account email:"
+msgstr "Аккаунтыңыздың email-і:"
+
+msgid "Welcome to Blog API!"
+msgstr "Blog API-ге қош келдіңіз!"
+
+msgid "Passwords must match."
+msgstr "Құпия сөздер сәйкес болуы керек."
+
+msgid "Invalid IANA timezone identifier."
+msgstr "Жарамсыз IANA уақыт белдеуі идентификаторы."
+
+msgid "Language updated."
+msgstr "Тіл жаңартылды."
+
+msgid "Timezone updated."
+msgstr "Уақыт белдеуі жаңартылды."
+
+msgid "Email must be provided"
+msgstr "Email міндетті түрде көрсетілуі керек."
