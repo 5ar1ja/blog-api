@@ -7,9 +7,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Добавляем папку apps в системные пути
 sys.path.insert(0, str(BASE_DIR / 'apps'))
 
+from settings.conf import *
+
 
 """ Application definition """
-from .conf import SECRET_KEY
 
 INSTALLED_APPS = [
     'daphne',
@@ -31,6 +32,7 @@ INSTALLED_APPS = [
     'apps.stats',
     'apps.notifications',
     'channels',
+    'django_extensions',
 ]
 
 
